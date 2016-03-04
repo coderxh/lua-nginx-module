@@ -450,7 +450,7 @@ ngx_http_lua_socket_bind_ip(lua_State *L, int index)
         return 2;
     }
 
-    local->name.data = ngx_pcalloc(r->pool, len);
+    local->name.data = ngx_palloc(r->pool, len);
     if (local->name.data == NULL) {
         return luaL_error(L, "no memory");
     }
