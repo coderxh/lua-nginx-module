@@ -653,7 +653,12 @@ ngx_http_lua_socket_tcp_connect(lua_State *L)
     lua_pop(L, 1);
 
     if (local) {
-        u->peer.local = local;
+        u->peer.local = ngx_palloc(r->pool, sizeof(ngx_addr_t));
+        if (u->peer.local == NULL) {
+            return luaL_error(L, "no memory");
+        }
+
+        ngx_memcpy(u->peer.local, local, sizeof(ngx_addr_t));
     }
 
     lua_rawgeti(L, 1, SOCKET_TIMEOUT_INDEX);
