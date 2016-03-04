@@ -446,7 +446,7 @@ ngx_http_lua_socket_bind_ip(lua_State *L, int index)
     
     if (ngx_parse_addr(r->pool, local, ip, len) != NGX_OK) {
         lua_pushnil(L);
-        lua_pushfstring(L, "failed to parse addr \"%s\"", ip);
+        lua_pushfstring(L, "bad ip: %s", ip);
         return 2;
     }
 
@@ -458,7 +458,7 @@ ngx_http_lua_socket_bind_ip(lua_State *L, int index)
     local->name.len = len;
     ngx_memcpy(local->name.data, ip, len);
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
-                   "bind(%V)", &local->name);
+                   "lua tcp socket bind ip: %V", &local->name);
 
     lua_pushinteger(L, 1);
     return 1;
